@@ -7,6 +7,21 @@
 <!-- Teacher Cards in a Column-Wise Layout -->
 <div class="col-sm-offset-2 col-sm-10">
     <a href="{{route('create')}}" class="btn btn-primary">Create New</a>
+    @guest
+    <a href="{{route('login')}}" class="btn btn-primary">Login</a>
+    <a href="{{route('register')}}" class="btn btn-primary">Register</a>
+    @else
+    <!-- Authentication -->
+    <form method="POST" action="{{ route('logout') }}">
+        @csrf
+
+        <x-dropdown-link :href="route('logout')"
+                onclick="event.preventDefault();
+                            this.closest('form').submit();">
+            {{ __('Log Out') }}
+        </x-dropdown-link>
+    </form>
+    @endguest
 </div>
 
 <div class="container mt-5">
