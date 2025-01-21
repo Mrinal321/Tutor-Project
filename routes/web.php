@@ -29,10 +29,13 @@ Route::middleware('auth')->group(function () {
 require __DIR__.'/auth.php';
 
 // Auth::routes();
+Route::middleware(['auth'])->group(function (){
+    Route::post('/teachers/{id}/rate', [TeacherController::class, 'rate'])->name('teachers.rate');
+    Route::post('/vote/{id}', [TeacherController::class, 'incrementVote'])->name('vote');
+});
 
 Route::get('/', [TeacherController::class, 'index'])->name('index');
-Route::post('/vote/{id}', [TeacherController::class, 'incrementVote'])->name('vote');
 Route::get("create", [TeacherController::class,"create"])->name("create")->middleware('auth');
 Route::post('/create', [TeacherController::class, 'store'])->name('store');
-
-
+Route::get('/post', [TeacherController::class, 'post'])->name('post');
+Route::get('/teacher/{id}/profile', [TeacherController::class, 'profile'])->name('teacher.profile');

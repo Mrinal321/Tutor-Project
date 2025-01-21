@@ -12,6 +12,11 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    public function ratedTeachers()
+    {
+        return $this->belongsToMany(Teacher::class, 'teacher_user')->withPivot('star')->withTimestamps();
+    }
+
     /**
      * The attributes that are mass assignable.
      *
