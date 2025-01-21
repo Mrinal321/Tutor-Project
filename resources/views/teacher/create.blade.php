@@ -18,10 +18,10 @@
             <label for="">Department</label><br>
             <input type="text" name="department" class="form-control">
         </div>
-        <div class="form-group mb-3">
+        {{-- <div class="form-group mb-3">
             <label for="">Vote</label><br>
             <input type="number" name="vote" class="form-control">
-        </div>
+        </div> --}}
         <div class="form-group mb-3">
             <label for="">Profile Image</label><br>
             <input type="file" name="image" class="form-control">

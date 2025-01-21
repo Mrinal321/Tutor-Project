@@ -30,7 +30,7 @@ class TeacherController extends Controller
         $teacher->name = $request->input('name');
         $teacher->university = $request->input('university');
         $teacher->department = $request->input('department');
-        $teacher->vote = $request->input('vote');
+        $teacher->vote = 0;
         // Handle file upload
         if ($request->hasFile('image')) {
             $file = $request->file('image');
