@@ -4,17 +4,40 @@ namespace App\Http\Controllers;
 
 use App\Models\Teacher;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\File;
 
 class TeacherController extends Controller
 {
     public function index(Request $request){
-        // Fetch all teachers sorted by total_star in descending order
-        $teachers = Teacher::orderBy('total_star', 'desc')->get();
-        return view('teacher.index', compact('teachers'));
-    }
+        // Get filter inputs
+        $university = $request->input('university');
+        $department = $request->input('department');
 
+        $query = Teacher::select(
+            '*',
+            DB::raw('ROUND(total_star / NULLIF(count, 0), 1) as average_star')
+        );
+
+        // Apply filters
+        if ($university) {
+            $query->where('university', $university);
+        }
+
+        if ($department) {
+            $query->where('department', $department);
+        }
+
+        // Fetch filtered and sorted teachers
+        $teachers = $query->orderBy('average_star', 'desc')->get();
+
+        // Pass distinct universities and departments for filtering options
+        $universities = Teacher::select('university')->distinct()->pluck('university');
+        $departments = Teacher::select('department')->distinct()->pluck('department');
+
+        return view('teacher.index', compact('teachers', 'universities', 'departments', 'university', 'department'));
+    }
     public function incrementVote($id){
         // Find the teacher by ID and increment the vote count
         $teacher = Teacher::findOrFail($id);

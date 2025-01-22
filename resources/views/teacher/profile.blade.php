@@ -96,6 +96,41 @@
                 @endif
             @endif
 
+            <!-- Display Comments -->
+            <h4>Comments:</h4>
+            @php
+                $comments = DB::table('comments')
+                    ->where('teacher_id', $item->id)
+                    ->orderBy('created_at', 'desc')
+                    ->get();
+            @endphp
+
+            @if ($comments->count() > 0)
+                <ul>
+                    @foreach ($comments as $comment)
+                        <li>
+                            <strong>
+                                @php
+                                    $user = DB::table('users')->find($comment->user_id);
+                                    echo $user ? $user->name : 'Anonymous';
+                                @endphp
+                            </strong>: {{ $comment->content }}
+                        </li>
+                    @endforeach
+                </ul>
+            @else
+                <p>No comments yet. Be the first to leave one!</p>
+            @endif
+
+            <!-- Add Comment Form -->
+            <h4>Leave a Comment:</h4>
+            <form action="{{ route('comments.store', $item->id) }}" method="POST">
+                @csrf
+                <div class="form-group">
+                    <textarea name="content" class="form-control" rows="3" placeholder="Write your comment here..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary mt-2">Submit</button>
+            </form>
         </div>
     </div>
 </div>

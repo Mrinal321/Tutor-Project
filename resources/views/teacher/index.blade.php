@@ -39,6 +39,39 @@
     </div>
 </nav>
 
+<!-- Filter Form -->
+<form method="GET" action="{{ route('index') }}" class="mb-4">
+    <div class="row">
+        <!-- University Filter -->
+        <div class="col-md-5">
+            <label for="university">University</label>
+            <select name="university" id="university" class="form-control">
+                <option value="">-- Select University --</option>
+                @foreach ($universities as $uni)
+                    <option value="{{ $uni }}" {{ $uni == $university ? 'selected' : '' }}>{{ $uni }}</option>
+                @endforeach
+            </select>
+        </div>
+
+        <!-- Department Filter -->
+        <div class="col-md-5">
+            <label for="department">Department</label>
+            <select name="department" id="department" class="form-control">
+                <option value="">-- Select Department --</option>
+                @foreach ($departments as $dept)
+                    <option value="{{ $dept }}" {{ $dept == $department ? 'selected' : '' }}>{{ $dept }}</option>
+                @endforeach
+            </select>
+        </div>
+
+        <!-- Filter Button -->
+        <div class="col-md-2">
+            <label>&nbsp;</label>
+            <button type="submit" class="btn btn-primary btn-block">Filter</button>
+        </div>
+    </div>
+</form>
+
 <div class="container mt-5">
     <h1 class="text-center mb-4">Teachers List</h1>
     <div class="row g-4">

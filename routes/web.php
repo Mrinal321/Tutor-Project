@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TeacherController;
 use Illuminate\Support\Facades\Auth;
@@ -39,3 +40,5 @@ Route::get("create", [TeacherController::class,"create"])->name("create")->middl
 Route::post('/create', [TeacherController::class, 'store'])->name('store');
 Route::get('/post', [TeacherController::class, 'post'])->name('post');
 Route::get('/teacher/{id}/profile', [TeacherController::class, 'profile'])->name('teacher.profile');
+
+Route::post('/teachers/{teacher}/comments', [CommentController::class, 'store'])->name('comments.store');
