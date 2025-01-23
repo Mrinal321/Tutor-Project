@@ -4,6 +4,7 @@
 {{-- @extends('layouts.app')
 @section('content') --}}
 
+{{-- Nevigation Bar Start --}}
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -14,48 +15,44 @@
         <li class="nav-item active">
           <a class="nav-link" href="{{route('index')}}">Home <span class="sr-only">(current)</span></a>
         </li>
-        @guest
         <li class="nav-item active">
-            <a class="btn " href="{{route('create')}}">Enroll as a teacher? Login first! <span class="sr-only">(current)</span></a>
-          </li>
-        @else
-            @php
-                $isUserPresent = $teachers->pluck('user_teacher_id')->contains(auth()->id());
-            @endphp
-
-            @if ($isUserPresent)
-                <li class="nav-item active">
-                    <a class="btn success" href="{{route('create')}}">Edit Profile <span class="sr-only">(current)</span></a>
-                </li>
-            @else
-                <li class="nav-item active">
-                    <a class="btn success" href="{{route('create')}}">Enroll as a Teacher <span class="sr-only">(current)</span></a>
-                </li>
-            @endif
-        @endguest
+          <a class="btn btn-search" href="{{route('university')}}">All University <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item active">
+          <a class="btn btn-search" href="{{route('department')}}">All Department <span class="sr-only">(current)</span></a>
+        </li>
       </ul>
 
         @guest
-        <a href="{{route('login')}}" class="btn primary">Login</a>
-        <a href="{{route('register')}}" class="btn primary">Register</a>
+            <a class="btn " href="">Enroll as a teacher or rate? Login first! <span class="sr-only">(current)</span></a>
+            <a href="{{route('login')}}" class="btn primary">Login</a>
+            <a href="{{route('register')}}" class="btn primary">Register</a>
         @else
-        <!-- Authentication -->
-        <div>{{ Auth::user()->name }}</div>
-        <form method="POST" action="{{ route('logout') }}">
-            @csrf
+            @php
+                $isUserPresent = $teachers->pluck('user_teacher_id')->contains(auth()->id());
+                $teacherID = $teachers->firstWhere('user_teacher_id', auth()->id())?->id;
+            @endphp
+            @if ($isUserPresent)
+                <a class="btn success" href="{{route('teacher.edit', $teacherID)}}">Edit Profile - {{ Auth::user()->name }} <span class="sr-only">(current)</span></a>
+            @else
+                <a class="btn success" href="{{route('create')}}">Enroll as a Teacher - {{ Auth::user()->name }} <span class="sr-only">(current)</span></a>
+            @endif
+            <!-- Authentication -->
+            {{-- <div>{{ Auth::user()->name }}</div> --}}
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
 
-            <x-dropdown-link :href="route('logout')"
-                    onclick="event.preventDefault();
-                                this.closest('form').submit();">
-                {{ __('Log Out') }}
-            </x-dropdown-link>
-        </form>
+                <x-dropdown-link :href="route('logout')"
+                        onclick="event.preventDefault();
+                                    this.closest('form').submit();">
+                    {{ __('Log Out') }}
+                </x-dropdown-link>
+            </form>
         @endguest
 
     </div>
 </nav>
-
-<a class="btn success" href="{{route('university')}}">University<span class="sr-only">(current)</span></a>
+{{-- Nevigayion Bar End --}}
 
 <!-- Filter Form -->
 <form method="GET" action="{{ route('index') }}" class="mb-4">
@@ -89,6 +86,7 @@
         </div>
     </div>
 </form>
+{{-- End Filter form --}}
 
 <div class="container mt-5">
     <h1 class="text-center mb-4">Teachers List</h1>
@@ -121,7 +119,7 @@
                             @endfor
                         </p>
 
-                        <a href="{{route('teacher.profile', $item->id)}}" >View Profile</a><br>
+                        <a class="btn btn-primary" href="{{route('teacher.profile', $item->id)}}" >View Profile</a><br>
 
                     </div>
                 </div>
@@ -129,10 +127,6 @@
         @endforeach
     </div>
 
-    <!-- Pagination -->
-    {{-- <div class="d-flex justify-content-center mt-4">
-        {{ $teachers->links('pagination::bootstrap-5') }}
-    </div> --}}
     {{-- <div class="d-flex justify-content-center mt-4">
         {{ $teachers->appends(['sort_field' => $sortField, 'sort_direction' => $sortDirection])}}
     </div> --}}

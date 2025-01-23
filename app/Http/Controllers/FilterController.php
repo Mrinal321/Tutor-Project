@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 class FilterController extends Controller
 {
     public function university(){
+        $teachers2 = Teacher::all();
         $universities = Teacher::select('university')->distinct()->pluck('university');
 
         $teachersByUniversity = [];
@@ -18,10 +19,11 @@ class FilterController extends Controller
                 ->paginate(3, pageName: Str::snake($university)); // Unique pagination for each university
         }
 
-        return view('filter.university', compact('teachersByUniversity'));
+        return view('filter.university', compact('teachersByUniversity', 'teachers2'));
     }
 
     public function department(){
+        $teachers2 = Teacher::all();
         $departments = Teacher::select('department')
             ->distinct()
             ->pluck('department'); // Get a list of unique universities
@@ -33,7 +35,7 @@ class FilterController extends Controller
                 ->paginate(3, pageName: Str::snake($department)); // Paginate within each university
         }
 
-        return view('filter.department', compact('teachersByDepartment'));
+        return view('filter.department', compact('teachersByDepartment', 'teachers2'));
     }
 
 }
