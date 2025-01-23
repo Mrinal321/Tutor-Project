@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\FilterController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TeacherController;
 use Illuminate\Support\Facades\Auth;
@@ -35,6 +36,7 @@ Route::middleware(['auth'])->group(function (){
     Route::post('/vote/{id}', [TeacherController::class, 'incrementVote'])->name('vote');
 });
 
+// TeacherController
 Route::get('/', [TeacherController::class, 'index'])->name('index');
 Route::get("create", [TeacherController::class,"create"])->name("create")->middleware('auth');
 Route::post('/create', [TeacherController::class, 'store'])->name('store');
@@ -42,3 +44,7 @@ Route::get('/post', [TeacherController::class, 'post'])->name('post');
 Route::get('/teacher/{id}/profile', [TeacherController::class, 'profile'])->name('teacher.profile');
 
 Route::post('/teachers/{teacher}/comments', [CommentController::class, 'store'])->name('comments.store');
+
+// FilterController
+Route::get('/university', [FilterController::class, 'university'])->name('university');
+Route::get('/department', [FilterController::class, 'department'])->name('department');

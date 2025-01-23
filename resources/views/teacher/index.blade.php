@@ -14,9 +14,15 @@
         <li class="nav-item active">
           <a class="nav-link" href="{{route('index')}}">Home <span class="sr-only">(current)</span></a>
         </li>
+        @guest
+        <li class="nav-item active">
+            <a class="btn " href="{{route('create')}}">Enroll as a teacher? Login first! <span class="sr-only">(current)</span></a>
+          </li>
+        @else
         <li class="nav-item active">
           <a class="btn success" href="{{route('create')}}">Enroll as a Teacher <span class="sr-only">(current)</span></a>
         </li>
+        @endguest
       </ul>
 
         @guest
@@ -38,6 +44,8 @@
 
     </div>
 </nav>
+
+<a class="btn success" href="{{route('university')}}">University<span class="sr-only">(current)</span></a>
 
 <!-- Filter Form -->
 <form method="GET" action="{{ route('index') }}" class="mb-4">
