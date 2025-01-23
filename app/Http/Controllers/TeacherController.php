@@ -50,6 +50,13 @@ class TeacherController extends Controller
     }
 
     public function store(Request $request){
+        // Check if the user already has a teacher profile
+        $existingTeacher = Teacher::where('user_teacher_id', auth()->id())->first();
+
+        if ($existingTeacher) {
+            return redirect()->back()->with('error', 'You can only create one teacher profile.');
+        }
+
         $teacher = new Teacher();
         $teacher->name = $request->input('name');
         $teacher->university = $request->input('university');
@@ -65,6 +72,7 @@ class TeacherController extends Controller
             $teacher->image = $filename;
         }
 
+        $teacher->user_teacher_id = auth()->id();
         $teacher->save();
 
         return redirect()->back()->with('status', 'Teacher image added successfully!');

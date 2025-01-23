@@ -19,9 +19,19 @@
             <a class="btn " href="{{route('create')}}">Enroll as a teacher? Login first! <span class="sr-only">(current)</span></a>
           </li>
         @else
-        <li class="nav-item active">
-          <a class="btn success" href="{{route('create')}}">Enroll as a Teacher <span class="sr-only">(current)</span></a>
-        </li>
+            @php
+                $isUserPresent = $teachers->pluck('user_teacher_id')->contains(auth()->id());
+            @endphp
+
+            @if ($isUserPresent)
+                <li class="nav-item active">
+                    <a class="btn success" href="{{route('create')}}">Edit Profile <span class="sr-only">(current)</span></a>
+                </li>
+            @else
+                <li class="nav-item active">
+                    <a class="btn success" href="{{route('create')}}">Enroll as a Teacher <span class="sr-only">(current)</span></a>
+                </li>
+            @endif
         @endguest
       </ul>
 
