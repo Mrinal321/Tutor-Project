@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Teacher;
+use App\Models\Schedule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -45,7 +46,8 @@ class TeacherProfileController extends Controller
 
     public function profile($id){
         $item = Teacher::find($id);
-        return view('teacher.profile', compact('item'));
+        $teachers = Teacher::all();
+        return view('teacher.profile', compact('item', 'teachers'));
     }
 
     public function edit(Request $request, $id){
@@ -75,6 +77,5 @@ class TeacherProfileController extends Controller
 
         return redirect()->route('index');
     }
-
 
 }

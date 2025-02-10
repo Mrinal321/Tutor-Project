@@ -3,6 +3,7 @@
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\FilterController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\TeacherController;
 use App\Http\Controllers\TeacherProfileController;
 use Illuminate\Support\Facades\Auth;
@@ -23,7 +24,9 @@ use Illuminate\Support\Facades\Route;
 //     return view('dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
+Auth::routes(['verify' => true]);
+
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -53,3 +56,9 @@ Route::post('/teachers/{teacher}/comments', [CommentController::class, 'store'])
 Route::get('teachers/{id}/edit', [TeacherProfileController::class, 'edit'])->name('teacher.edit');
 Route::put('teacher/{id}/update', [TeacherProfileController::class, 'update'])->name('teacher.update');
 
+// ScheduleController
+Route::get('/schedules', [ScheduleController::class, 'index'])->name('schedules');
+Route::get('/schedules/create/{id}', [ScheduleController::class, 'create'])->name('schedules.create');
+Route::post('/schedules/store', [ScheduleController::class, 'store'])->name('schedules.store');
+
+//

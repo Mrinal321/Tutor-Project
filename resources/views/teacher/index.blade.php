@@ -33,7 +33,8 @@
                 $teacherID = $teachers->firstWhere('user_teacher_id', auth()->id())?->id;
             @endphp
             @if ($isUserPresent)
-                <a class="btn success" href="{{route('teacher.edit', $teacherID)}}">Edit Profile - {{ Auth::user()->name }} <span class="sr-only">(current)</span></a>
+                <a class="btn success" href="{{route('schedules.create', $teacherID)}}">Set Event</a>
+                <a class="btn success" href="{{route('teacher.edit', $teacherID)}}">Update Profile - {{ Auth::user()->name }} <span class="sr-only">(current)</span></a>
             @else
                 <a class="btn success" href="{{route('create')}}">Enroll as a Teacher - {{ Auth::user()->name }} <span class="sr-only">(current)</span></a>
             @endif
