@@ -55,6 +55,19 @@
 </nav>
 {{-- Nevigayion Bar End --}}
 
+<!-- Start Left Navigation Bar -->
+<ul class="nav navbar-nav navbar-left">
+    <div class="">
+        {{-- <h4 class="text-center">Menu</h4> --}}
+        <a href="{{ route('index') }}">🏠 Home</a>
+        <a href="{{ route('index') }}">👨‍🏫 Teachers</a>
+        <a href="{{ route('index') }}">📅 Schedules</a>
+        <a href="{{ route('index') }}">👤 Profile</a>
+        <a href="{{ route('index') }}">🚪 Logout</a>
+    </div>
+</ul>
+<!-- End Left Navigation Bar -->
+
 <!-- Filter Form -->
 <form method="GET" action="{{ route('index') }}" class="mb-4">
     <div class="row">

@@ -42,7 +42,7 @@ Route::middleware(['auth'])->group(function (){
 
 // TeacherController
 Route::get('/', [TeacherController::class, 'index'])->name('index');
-Route::get("create", [TeacherProfileController::class,"create"])->name("create")->middleware('auth');
+Route::get("create", [TeacherProfileController::class,"create"])->name("create")->middleware(['auth', 'verified']);
 Route::post('/create', [TeacherProfileController::class, 'store'])->name('store');
 Route::get('/post', [TeacherController::class, 'post'])->name('post');
 
